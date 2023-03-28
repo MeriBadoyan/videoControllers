@@ -12,6 +12,12 @@ let isPlaying = false
 let isMuted = false
 let isFullScreen = false
 let timeInterval = null
+let progress = 0
+
+function changeProgressBar() {
+    progress += (100 / video.duration)
+    progressBar.style.width = `${progress}%`
+}
 
 playPauseBtn.addEventListener('click', () => {
     if (isPlaying) {
@@ -32,8 +38,8 @@ playPauseBtn.addEventListener('click', () => {
             currentMinitues = currentMinitues < 0 ? '00' : currentMinitues < 10 ? `0${currentMinitues}` : `${currentMinitues}`
 
             currentTime.innerHTML = `${currentMinitues}:${currentSeconds}`
+            changeProgressBar()
         }, 1000)
-
     }
 })
 
@@ -67,4 +73,10 @@ fullScreenBtn.addEventListener('click', () => {
         isFullScreen = true
         video.requestFullscreen()
     }
+})
+
+
+progressContainer.addEventListener('click', (event) => {
+    progress = event.offsetX * 100 / 578
+    video.currentTime = progress * 100
 })
